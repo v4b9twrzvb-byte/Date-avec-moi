@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Une invitation pour toi</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root{--bg1:#fff3f1;--bg2:#f8d9dc;--card:#ffffffd9;--ink:#4a1626;--soft:#8a5a66;--accent:#b0314f;--gold:#b98a3e;--line:#e9c3ca;--sel:#fbe3e7;color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg1:#2a0d18;--bg2:#4a1626;--card:#3a1220d9;--ink:#fbe9ec;--soft:#d3a7b1;--accent:#ff7d9a;--gold:#e3bd72;--line:#6b2a3d;--sel:#5a1f33;color-scheme:dark}}
+:root[data-theme="dark"]{--bg1:#2a0d18;--bg2:#4a1626;--card:#3a1220d9;--ink:#fbe9ec;--soft:#d3a7b1;--accent:#ff7d9a;--gold:#e3bd72;--line:#6b2a3d;--sel:#5a1f33;color-scheme:dark}
+*{box-sizing:border-box}
+html,body{margin:0;min-height:100%}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{background:linear-gradient(160deg,var(--bg1),var(--bg2)) fixed;color:var(--ink);font-family:Jost,system-ui,sans-serif;font-weight:300;display:flex;justify-content:center;overflow-x:hidden}
+.hearts{position:fixed;inset:0;pointer-events:none;overflow:hidden;z-index:0}
+.hearts span{position:absolute;bottom:-40px;color:var(--accent);opacity:.25;animation:up linear infinite}
+@keyframes up{to{transform:translateY(-115vh) rotate(25deg);opacity:0}}
+main{position:relative;z-index:1;width:100%;max-width:480px;padding:28px 18px 40px;text-align:center}
+h1,h2{font-family:'Cormorant Garamond',Georgia,serif;font-weight:600;margin:0}
+h1{font-size:2.4rem;line-height:1.1;margin:14px 0 10px}
+h2{font-size:1.9rem;line-height:1.15;margin-bottom:6px}
+.script{font-style:italic;color:var(--gold);font-family:'Cormorant Garamond',Georgia,serif;font-size:1.25rem}
+.sub{color:var(--soft);margin:0 0 16px;line-height:1.5}
+.card{background:var(--card);backdrop-filter:blur(8px);border:1px solid var(--line);border-radius:22px;padding:26px 18px;box-shadow:0 12px 40px #b0314f22;animation:in .5s ease}
+@keyframes in{from{opacity:0;transform:translateY(14px)}}
+.big{font-size:3rem;animation:beat 1.6s infinite}
+@keyframes beat{50%{transform:scale(1.15)}}
+.dots{display:flex;gap:6px;justify-content:center;margin-bottom:18px}
+.dots i{width:30px;height:4px;border-radius:4px;background:var(--line);transition:.3s}
+.dots i.on{background:var(--accent)}
+.opts{display:grid;gap:10px;margin:18px 0}
+.opt{font:inherit;font-weight:400;color:var(--ink);background:transparent;border:1.5px solid var(--line);border-radius:16px;padding:14px;text-align:left;display:flex;gap:12px;align-items:center;cursor:pointer;transition:.2s}
+.opt .e{font-size:1.6rem}
+.opt.sel{background:var(--sel);border-color:var(--accent);transform:scale(1.02)}
+.btn{font:inherit;font-weight:500;letter-spacing:.04em;border:0;border-radius:30px;padding:14px 30px;background:var(--accent);color:#fff;cursor:pointer;box-shadow:0 6px 18px #b0314f44;width:100%}
+.btn:disabled{opacity:.35;box-shadow:none}
+.btn.ghost{background:transparent;color:var(--accent);border:1.5px solid var(--accent);box-shadow:none;margin-top:10px}
+.back{background:none;border:0;color:var(--soft);font:inherit;margin-top:12px;cursor:pointer}
+input,textarea{width:100%;font:inherit;color:var(--ink);background:transparent;border:1.5px solid var(--line);border-radius:14px;padding:12px;margin:6px 0 14px}
+textarea{min-height:70px;resize:none}
+.recap{text-align:left;margin:16px 0;display:grid;gap:8px}
+.recap div{display:flex;justify-content:space-between;gap:12px;border-bottom:1px dashed var(--line);padding-bottom:8px}
+.recap b{font-weight:400;color:var(--soft)}
+.recap span{text-align:right;font-weight:500}
+.tog{position:fixed;top:calc(10px + env(safe-area-inset-top,0px));right:12px;z-index:5;background:var(--card);border:1px solid var(--line);border-radius:20px;padding:6px 10px;cursor:pointer;color:var(--ink)}
+/* intro */
+.row{display:flex;gap:12px;align-items:center;justify-content:center;margin-top:8px}.row button{flex:1;font-size:1.1rem;padding:.7em 1.4em;border-radius:40px}#yes{transition:font-size .35s,padding .35s}
+#no{background:transparent;color:var(--soft);border:1.5px solid var(--line);font-family:inherit;font-weight:500;cursor:pointer;transition:left .25s,top .25s}
+#no.run{position:fixed;z-index:4;margin:0;background:var(--card)}
+.hint{min-height:1.4em;color:var(--gold);font-style:italic;margin-top:10px}
+.wheels{display:flex;justify-content:center;align-items:center;gap:6px;position:relative;margin:6px 0 18px;font-size:1.7rem}.wheel{box-sizing:content-box;height:44px;width:90px;padding:44px 0;overflow-y:auto;scroll-snap-type:y mandatory;scrollbar-width:none;-webkit-mask-image:linear-gradient(transparent,#000 35%,#000 65%,transparent);mask-image:linear-gradient(transparent,#000 35%,#000 65%,transparent)}.wheel::-webkit-scrollbar{display:none}.wheel div{height:44px;line-height:44px;scroll-snap-align:center;font-family:'Cormorant Garamond',Georgia,serif;font-weight:600}.band{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:230px;height:44px;border-top:1.5px solid var(--accent);border-bottom:1.5px solid var(--accent);pointer-events:none}
+/* calendrier */
+.cal{display:grid;grid-template-columns:repeat(7,1fr);gap:6px;margin:12px 0}
+.cal .h{font-size:.75rem;color:var(--soft)}
+.cal button{font:inherit;aspect-ratio:1;border-radius:50%;border:1.5px solid var(--line);background:transparent;color:var(--ink);cursor:pointer}
+.cal button:disabled{opacity:.25;border-color:transparent;cursor:default}
+.cal button.sel{background:var(--accent);border-color:var(--accent);color:#fff}
+.cal button.ok{border-color:var(--accent);font-weight:500}
+.times{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin:6px 0 16px}
+.times button{font:inherit;border:1.5px solid var(--line);background:transparent;color:var(--ink);border-radius:20px;padding:8px 16px;cursor:pointer}
+.times button.sel{background:var(--accent);border-color:var(--accent);color:#fff}
+</style>
+</head>
+<body>
+<div class="hearts" id="hearts"></div>
+<button class="tog" id="tog" aria-label="Thème">🌙</button>
+<main id="app"></main>
+<script>
+// ✏️ À PERSONNALISER
+const HER = "Victoria";            // son prénom
+const HIM = "Côme";        // le tien
+const PHONE = "";                // ton n° WhatsApp sans + (ex: 33612345678), ou vide
+const AVAIL = Array.from({length:17},(_,n)=>15+n); // jours d'octobre 2026 où tu es dispo
+const HRS=[...Array(15)].map((_,n)=>n+9), MIN=[...Array(12)].map((_,n)=>n*5), p2=n=>String(n).padStart(2,"0");
+const FOODS = [["🍝","Restaurant italien"],["🍜","Restaurant asiatique"],["🧺","Pique-nique sur la plage"],["👨‍🍳","Je serai ton chef privé à domicile"]];
+
+const ans={}; let i=-1, noCount=0;
+const app=document.getElementById("app");
+const DAYS=["dimanche","lundi","mardi","mercredi","jeudi","vendredi","samedi"];
+const dots=()=>'<div class="dots">'+[0,1,2].map(n=>`<i class="${n<=i?'on':''}"></i>`).join("")+'</div>';
+const MSG=["Oups, raté 😏","Essaie encore…","Il est timide 🙈","Impossible 😇","Le « Oui » est plus grand, non ?","Tu sais que tu veux 💕"];
+
+function render(){
+ if(i<0)return intro();
+ if(i==0)return food();
+ if(i==1)return date();
+ if(i==2)return place();
+ recap();
+}
+
+function intro(){
+ app.innerHTML=`<div class="card"><div class="big">💌</div><div class="script">Coucou ${HER}</div>
+ <h1>Veux-tu un rendez-vous avec moi ?</h1><p class="sub">Une seule vraie réponse possible…</p>
+ <div class="row"><button class="btn" id="yes">Oui 💖</button><button id="no">Non</button></div><div class="hint" id="hint"></div></div>`;
+ yes.onclick=()=>{i=0;render()};
+ const run=e=>{e.preventDefault();noCount++;
+  if(!no.classList.contains("run"))no.style.width=no.offsetWidth+"px";no.classList.add("run");
+  const w=window.innerWidth-no.offsetWidth-20,h=window.innerHeight-no.offsetHeight-20;
+  no.style.left=Math.max(10,Math.random()*w)+"px";no.style.top=Math.max(60,Math.random()*h)+"px";
+  yes.style.fontSize=Math.min(1.1+noCount*.45,5)+"rem";
+  yes.style.padding=(.7+noCount*.12)+"em 1.4em";
+  hint.textContent=MSG[(noCount-1)%MSG.length];};
+ ["mouseenter","touchstart","click"].forEach(ev=>no.addEventListener(ev,run,{passive:false}));
+}
+
+function food(){
+ app.innerHTML=`<div class="card">${dots()}<h2>Qu'aimerais-tu qu'on mange ?</h2><p class="sub">&nbsp;</p>
+ <div class="opts">${FOODS.map((o,n)=>`<button class="opt ${ans.food==o[1]?'sel':''}" data-n="${n}"><span class="e">${o[0]}</span><span>${o[1]}</span></button>`).join("")}</div>
+ <button class="btn" id="nx" ${ans.food?"":"disabled"}>Continuer</button><button class="back" id="bk">← Retour</button></div>`;
+ document.querySelectorAll(".opt").forEach(b=>b.onclick=()=>{ans.food=FOODS[+b.dataset.n][1];food()});
+ nx.onclick=()=>{i=1;render()};bk.onclick=()=>{i=-1;noCount=0;render()};
+}
+
+function date(){
+ const off=3; // 1er octobre 2026 = jeudi
+ let cells=["L","M","M","J","V","S","D"].map(d=>`<div class="h">${d}</div>`).join("")+"<div></div>".repeat(off);
+ for(let d=1;d<=31;d++){const ok=AVAIL.includes(d);
+  cells+=`<button data-d="${d}" class="${ok?'ok':''} ${ans.day==d?'sel':''}" ${ok?"":"disabled"}>${d}</button>`}
+ app.innerHTML=`<div class="card">${dots()}<h2>Quel jour te va ?</h2><p class="sub">Octobre 2026 — choisis le jour qui te plaît</p>
+ <div class="cal">${cells}</div>
+ ${ans.day?`<p class="sub" style="margin-bottom:4px">À quelle heure ?</p><div class="wheels"><div class="band"></div><div class="wheel" id="wh">${HRS.map(h=>`<div>${p2(h)}</div>`).join("")}</div><b>:</b><div class="wheel" id="wm">${MIN.map(m=>`<div>${p2(m)}</div>`).join("")}</div></div>`:""}
+ <button class="btn" id="nx" ${ans.day?"":"disabled"}>Continuer</button><button class="back" id="bk">← Retour</button></div>`;
+ document.querySelectorAll(".cal button.ok").forEach(b=>b.onclick=()=>{ans.day=+b.dataset.d;date()});
+ ans.hh=ans.hh??20;ans.mm=ans.mm??0;
+ if(ans.day)[[wh,HRS,"hh"],[wm,MIN,"mm"]].forEach(([el,arr,k])=>{el.scrollTop=arr.indexOf(ans[k])*44;el.onscroll=()=>{ans[k]=arr[Math.max(0,Math.min(arr.length-1,Math.round(el.scrollTop/44)))]}});
+ nx.onclick=()=>{i=2;render()};bk.onclick=()=>{i=0;render()};
+}
+
+function place(){
+ app.innerHTML=`<div class="card">${dots()}<h2>Où viens-je te chercher ?</h2><p class="sub">Une adresse, un coin de rue, une gare… c'est toi qui décides</p>
+ <input id="pl" placeholder="Ex : devant chez toi, 12 rue des Lilas" value="${ans.place||""}">
+ <button class="btn" id="nx" ${ans.place?"":"disabled"}>Voir notre rendez-vous</button><button class="back" id="bk">← Retour</button></div>`;
+ pl.oninput=()=>{ans.place=pl.value.trim();nx.disabled=!ans.place};
+ nx.onclick=()=>{i=3;render()};bk.onclick=()=>{i=1;render()};
+}
+
+const when=()=>`${DAYS[new Date(2026,9,ans.day).getDay()]} ${ans.day} octobre à ${p2(ans.hh)}h${p2(ans.mm)}`;
+function summary(){
+ const w=(document.getElementById("note")||{}).value||"";
+ return `💌 Réponse de ${HER} : OUI !\n• Repas : ${ans.food}\n• Quand : ${when()}\n• Point de rendez-vous : ${ans.place}`+(w?`\n• Petit mot : ${w}`:"")+(noCount?`\n(Elle a tenté « Non » ${noCount} fois 😏)`:"")+`\n\nJ'ai hâte ! ❤️`;
+}
+
+function recap(){
+ const r=[["Repas",ans.food],["Quand",when()],["Je viens te chercher",ans.place]];
+ app.innerHTML=`<div class="card"><div class="big">💖</div><h2>Notre rendez-vous</h2>
+ <div class="recap">${r.map(x=>`<div><b>${x[0]}</b><span>${x[1]}</span></div>`).join("")}</div>
+ <textarea id="note" placeholder="Un petit mot, une allergie… (facultatif)"></textarea>
+ <p class="sub">Copie ta réponse, puis renvoie-la moi sur Instagram 💌</p>
+ <button class="btn" id="cp">Copier ma réponse</button>
+ <button class="back" id="bk">← Modifier</button></div>`;
+ bk.onclick=()=>{i=2;render()};
+ cp.onclick=async()=>{try{await navigator.clipboard.writeText(summary());cp.textContent="Copié ✓"}catch(e){prompt("Copie ce texte :",summary())}};
+ cp.addEventListener("click",()=>_h());function _h(){for(let n=0;n<18;n++)heart(true);
+  };
+}
+
+function heart(fast){const h=document.createElement("span");h.textContent=["❤","♥","✿","💗"][Math.random()*4|0];
+ h.style.left=Math.random()*100+"%";h.style.fontSize=(12+Math.random()*22)+"px";
+ h.style.animationDuration=(fast?3+Math.random()*3:9+Math.random()*10)+"s";hearts.appendChild(h);setTimeout(()=>h.remove(),20000)}
+for(let n=0;n<10;n++)setTimeout(()=>heart(),n*700);setInterval(()=>heart(),1800);
+tog.onclick=()=>{const r=document.documentElement;const d=getComputedStyle(r).colorScheme==="dark";
+ r.dataset.theme=d?"light":"dark";tog.textContent=d?"🌙":"☀️"};
+render();
+</script>
+</body>
+</html>
